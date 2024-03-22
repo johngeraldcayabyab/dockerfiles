@@ -12,16 +12,14 @@ services:
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
   websocket:
+    image: dlareg/websocket:1.0
     container_name: websocket
-    build:
-      context: ./
-      dockerfile: ./websocket/Dockerfile
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+    ports:
+      - '${FORWARD_REDIS_PORT:-3000}:3000'
     networks:
       - app-network
-    ports:
-      - '${FORWARD_SOCKET_PORT:-3000}:3000'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 networks:
   app-network:
     driver: bridge
