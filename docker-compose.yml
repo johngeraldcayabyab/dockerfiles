@@ -1,0 +1,30 @@
+version: '3'
+services:
+  redis:
+    image: redis:6
+    container_name: redis
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'data.redis:/data'
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+  websocket:
+    container_name: websocket
+    build:
+      context: ./
+      dockerfile: ./websocket/Dockerfile
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      - app-network
+    ports:
+      - '${FORWARD_SOCKET_PORT:-3000}:3000'
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  data.redis:
+    driver: local
