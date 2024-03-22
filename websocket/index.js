@@ -53,5 +53,5 @@ const feBeSubscriber = client.duplicate();
 
 
 server.listen(SERVER_PORT, () => {
-    console.log('test');
+    console.log('test, everything is working');
 });
