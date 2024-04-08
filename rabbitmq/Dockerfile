@@ -10,5 +10,5 @@ RUN chmod +x /usr/local/bin/setup.sh
 
 ENTRYPOINT ["setup.sh"]
 
-EXPOSE 15672
+EXPOSE 5672 15672
 
